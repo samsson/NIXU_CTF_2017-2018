@@ -1,0 +1,14 @@
+Minttu,
+
+we got this network capture from one of the yber defense sensors, can
+you please review it? Apparently there was some targeted phishing
+recently and we are worried if someone fell victim...
+
+Btw, please use this template:
+1. What has happened?
+2. What is the timeline of the events?
+3. What possibly interesting/sensitive/confidential data has been stolen?
+4. What methods did the attacker use?
+
+Thanks,
+ Ville Y.

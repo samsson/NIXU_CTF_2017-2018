@@ -1,0 +1,174 @@
+HOST: 10.0.2.5
+    20: closed
+    21: closed
+    22: closed
+    23: closed
+    25: closed
+    53: closed
+    69: closed
+    123: closed
+    137: closed
+    161: closed
+    162: closed
+    110: closed
+    80: closed
+    8080: closed
+    1025: closed
+    587: closed
+    1433: closed
+    2082: closed
+    2483: closed
+    3128: closed
+    3306: closed
+    4333: closed
+    5432: closed
+    5500: closed
+
+HOST: 10.0.2.7
+    20: closed
+    21: closed
+    22: open
+        SSH-2.0-OpenSSH_5.9p1 Debian-5ubuntu1.1
+
+
+    23: closed
+    25: closed
+    53: closed
+    69: closed
+    123: closed
+    137: closed
+    161: closed
+    162: closed
+    110: closed
+    80: open
+        Date: Mon, 16 Jan 2017 23:40:40 GMT
+
+        Server: Apache/2.2.22 (Ubuntu)
+
+        Last-Modified: Thu, 12 Jan 2017 17:33:24 GMT
+
+        ETag: "88a6-9c-545e91d44ef9a"
+
+        Accept-Ranges: bytes
+
+        Content-Length: 156
+
+        Vary: Accept-Encoding
+
+        Connection: close
+
+        Content-Type: text/html
+
+
+        <html><body>
+        <h1>Financial data server</h1>
+        <p>This server contains internal financial data.</p>
+        <p>Access to this data is confidential.</p>
+        </body></html>
+
+    8080: open
+        Server: Apache-Coyote/1.1
+
+        X-Powered-By: Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+
+        Accept-Ranges: bytes
+
+        ETag: W/"1748-1484609233000"
+
+        Last-Modified: Mon, 16 Jan 2017 23:27:13 GMT
+
+        Content-Type: text/html
+
+        Content-Length: 1748
+
+        Date: Mon, 16 Jan 2017 23:40:40 GMT
+
+        Connection: close
+
+
+        <?xml version="1.0" encoding="iso-8859-1"?>
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+           <title>Welcome to JBoss AS</title>
+           <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+           <link rel="StyleSheet" href="css/jboss.css" type="text/css"/>
+        </head>
+
+        <body>
+        <!-- header begin -->
+           <a href="http://www.jboss.org/">
+              <img src="images/logo.gif" alt="JBoss" id="logo" width="226" height="105" />
+           </a>
+           <div id="header">&nbsp;</div>
+           <div id="navigation_bar"></div>
+        <!-- header end -->
+
+           <h3>Manage this JBoss AS Instance</h3>
+           <ul>
+              <li><a href="/admin-console/">Administration Console</a></li>
+              <li><a href="/jmx-console/">JMX Console</a></li>
+              <li><a href="/web-console/">JBoss Web Console</a></li>
+              <li><a href="/status">Tomcat status</a>
+                  <a href="/status?full=true">(full)</a>
+                  <a href="/status?XML=true">(XML)</a></li>
+           </ul>
+
+           <h3>JBoss AS Online Resources</h3>
+           <ul>
+              <li><a href="http://www.jboss.org/jbossas/docs/">JBoss AS Documentation</a></li>
+              <li><a href="http://wiki.jboss.org/">JBoss Wiki</a></li>
+              <li><a href="http://jira.jboss.org/jira/browse/JBAS">JBoss AS JIRA</a></li>
+              <li><a href="http://www.jboss.org/index.html?module=bb">JBoss Forums</a></li>
+              <li><a href="https://lists.jboss.org/">JBoss Mailing Lists</a></li>
+           </ul>
+
+        <!-- footer begin -->
+           <div id="footer">
+              <div id="credits">
+                 <a href="http://www.jboss.org/jbossas/">JBoss Application Server</a>
+              </div>
+              <div id="footer_bar">&nbsp;</div>
+           </div>
+        <!-- footer end -->
+        </body>
+
+        </html>
+
+    1025: closed
+    587: closed
+    1433: closed
+    2082: closed
+    2483: closed
+    3128: closed
+    3306: closed
+    4333: closed
+    5432: closed
+    5500: closed
+
+HOST: 10.0.2.15
+    20: closed
+    21: closed
+    22: closed
+    23: closed
+    25: closed
+    53: closed
+    69: closed
+    123: closed
+    137: closed
+    161: closed
+    162: closed
+    110: closed
+    80: closed
+    8080: closed
+    1025: closed
+    587: closed
+    1433: closed
+    2082: closed
+    2483: closed
+    3128: closed
+    3306: closed
+    4333: closed
+    5432: closed
+    5500: closed
